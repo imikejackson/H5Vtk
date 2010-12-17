@@ -164,12 +164,13 @@ vtkUnstructuredGrid* vtkH5UnstructuredGridReader::loadUnstructuredGridData(hid_t
   vtkUnstructuredGrid* output = NULL;
   herr_t err = 0;
   // now Open the "Dataset", which is actually a group
-  hid_t rootId = H5Vtk::H5Utilities::openHDF5Object(fileId, hdfpath);
+//  hid_t rootId = H5Vtk::H5Utilities::openHDF5Object(fileId, hdfpath);
+  hid_t rootId = H5Gopen(fileId, hdfpath.c_str());
 
   if (rootId < 0)
   {
     //std::cout << logTime() << "The Group " << this->HDFPath << " could not be found."<< std::endl;
-    err = H5Vtk::H5Utilities::closeFile(fileId);
+//    err = H5Vtk::H5Utilities::closeFile(fileId);
     this->HDFError = rootId;
     return output;
   }
