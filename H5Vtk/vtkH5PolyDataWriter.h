@@ -62,6 +62,10 @@ public:
   vtkPolyData* GetInput();
   vtkPolyData* GetInput(int port);
 
+  //BTX
+  int writeVtkObjectIndex(std::vector<std::string> &paths);
+  //ETX
+
 protected:
 	vtkH5PolyDataWriter();
 	~vtkH5PolyDataWriter();

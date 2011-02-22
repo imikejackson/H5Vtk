@@ -14,6 +14,7 @@
 
 //-- C++ includes
 #include <string>
+#include <vector>
 
 //-- VTK includes
 #include <vtkAlgorithm.h>
@@ -151,6 +152,7 @@ public:
   virtual int ReadMetaData(vtkInformation *) { return 1; }
 #endif
 
+  std::vector<std::string> ReadObjectIndex(hid_t file_id);
 //ETX
 
 protected:

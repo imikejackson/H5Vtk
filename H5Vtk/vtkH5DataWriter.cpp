@@ -8,7 +8,7 @@
 
 #include "vtkH5DataWriter.h"
 
-
+#include <sstream>
 
 //VTK/ParaView includes
 #include "vtkObjectFactory.h"
@@ -44,7 +44,7 @@
 #include "vtkDataArray.h"
 #include "vtkDataSetAttributes.h"
 
-
+#include "HDF5/H5Utilities.h"
 
 #define H5G_CREATE_GROUP(outId, parentid, name, estimate, errorReturnValue)\
   hid_t outId = H5Gcreate(parentid, name, estimate);\
@@ -849,5 +849,43 @@ int vtkH5DataWriter::WritePedigreeIdData(hid_t fp1, vtkAbstractArray *pedigreeId
   herr_t err = this->WriteArray(fp1, pedigreeIds->GetDataType(), pedigreeIds, pedigreeIdsName, num, 1);
   delete[] pedigreeIdsName;
   //err = H5Gclose(fp); if (err < 0) { err = 0; } else { err = 1; } // Because HDF5 returns 0 to indicate NO_ERROR, but we need to return 0 ON error
+  return err;
+}
+
+// -----------------------------------------------------------------------------
+//
+// -----------------------------------------------------------------------------
+int vtkH5DataWriter::writeObjectIndex(hid_t fileId, std::vector<std::string> &hdfPaths)
+{
+  herr_t err = 0;
+
+  err = H5Vtk::H5Utilities::createGroupsFromPath(H5_VTK_OBJECT_INDEX_PATH, fileId);
+  if (err < 0)
+  {
+    std::cout << "Error creating HDF Group " << H5_VTK_OBJECT_INDEX_PATH << std::endl;
+  }
+
+  hid_t gid = H5Gopen(fileId, H5_VTK_OBJECT_INDEX_PATH);
+  if(gid < 0)
+  {
+    std::cout << "Error writing string attribute to HDF Group " << H5_VTK_OBJECT_INDEX_PATH << std::endl;
+  }
+
+  std::stringstream ss;
+  std::vector<std::string>::size_type stop = hdfPaths.size();
+  std::vector<std::string>::size_type p = 0;
+  for (p = 0; p < stop; ++p)
+  {
+    ss.str("");
+    ss << p;
+    err = H5Vtk::H5Lite::writeStringDataset(gid, ss.str(), hdfPaths[p]);
+    if (err < 0)
+    {
+      std::cout << "Error writing VTK Object Index" << std::endl;
+    }
+  }
+  err = H5Gclose(gid);
+
+
   return err;
 }

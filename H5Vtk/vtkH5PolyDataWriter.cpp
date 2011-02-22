@@ -211,3 +211,20 @@ void vtkH5PolyDataWriter::WriteData()
   // std::cout << "  vtkH5PolyDataWriter::WriteData() Ending" << std::endl;
 }
 
+int vtkH5PolyDataWriter::writeVtkObjectIndex(std::vector<std::string> &paths)
+{
+  hid_t fileId = -1;
+  herr_t err = 0;
+  // Try to open a file
+  fileId = H5Vtk::H5Utilities::openFile(this->FileName, false);
+  if (fileId < 0)
+  {
+    return -1;
+  }
+  err = this->writeObjectIndex(fileId, paths);
+
+  // Close the file when we are finished with it
+  H5Vtk::H5Utilities::closeFile(fileId);
+
+  return err;
+}

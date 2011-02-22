@@ -10,7 +10,7 @@
 #include "VTKH5Constants.h"
 
 #include <vector>
-
+#include <list>
 
 #include "HDF5/H5Lite.h"
 #include "HDF5/H5Utilities.h"
@@ -497,4 +497,20 @@ int vtkH5DataReader::ReadDataHelper(vtkDataSetAttributes *a, int num,
   return err;
 }
 
+
+std::vector<std::string> vtkH5DataReader::ReadObjectIndex(hid_t file_id)
+{
+  hid_t dataDimId = H5Gopen(file_id, H5_VTK_OBJECT_INDEX_PATH);
+  std::list<std::string> names;
+  herr_t err = H5Vtk::H5Utilities::getGroupObjects(dataDimId, H5Vtk::H5Utilities::MXA_DATASET,  names);
+  std::vector<std::string> objects;
+  for (std::list<std::string>::iterator iter = names.begin(); iter != names.end(); ++iter)
+  {
+    std::string data;
+    H5Vtk::H5Lite::readStringDataset(dataDimId, *iter, data);
+    objects.push_back(data);
+  }
+  H5Gclose(dataDimId);
+  return objects;
+}
 

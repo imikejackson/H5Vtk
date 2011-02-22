@@ -68,7 +68,7 @@ public:
 #endif
 
   int WriteFieldData(hid_t parentGroup, vtkFieldData *f);
-  //int WriteDataSetData1(hid_t parentGroup, vtkDataSet *ds);
+
 
 
 protected:
@@ -107,6 +107,12 @@ protected:
     }
     err = H5Vtk::H5Lite::writeScalarAttribute(fp, name, std::string(H5_NUMCOMPONENTS), numComp);
   }
+
+  /**
+   *
+   */
+  int writeObjectIndex(hid_t fileId, std::vector<std::string> &hdfPaths);
+
   //ETX
 
 private:
