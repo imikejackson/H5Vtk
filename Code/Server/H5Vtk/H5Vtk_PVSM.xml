@@ -1,0 +1,46 @@
+<ServerManagerConfiguration>
+  <ProxyGroup
+    name="sources">
+    <!-- ************************************************************ -->
+    <!-- H5PolyDataReader -->
+    <!-- ************************************************************ -->
+    <SourceProxy
+      name="H5PolyDataReader"
+      class="vtkH5PolyDataReader">
+      <StringVectorProperty
+        name="FileName"
+        command="SetFileName"
+        number_of_elements="1">
+        <FileListDomain
+          name="files"/>
+      </StringVectorProperty>
+      <StringVectorProperty
+        name="Hdf5Path"
+        command="SetHDFPath"
+        number_of_elements="1"
+        default_values="/1">
+      </StringVectorProperty>
+    </SourceProxy>
+    
+    <!-- ************************************************************ -->
+    <!-- H5UnstructuredGridReader -->
+    <!-- ************************************************************ -->
+    <SourceProxy
+      name="H5UnstructuredGridReader"
+      class="vtkH5UnstructuredGridReader">
+      <StringVectorProperty
+        name="FileName"
+        command="SetFileName"
+        number_of_elements="1">
+        <FileListDomain
+          name="files"/>
+      </StringVectorProperty>
+      <StringVectorProperty
+        name="Hdf5Path"
+        command="SetHDFPath"
+        number_of_elements="1"
+        default_values="/1">
+      </StringVectorProperty>
+    </SourceProxy>
+  </ProxyGroup>
+</ServerManagerConfiguration>
