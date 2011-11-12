@@ -28,6 +28,13 @@
 
 #include "vtkType.h"
 
+#define uint8_t vtkTypeUInt8
+#define int8_t  vtkTypeInt8
+#define uint16_t vtkTypeUInt16
+#define int16_t  vtkTypeInt16
+#define int32_t vtkTypeInt32
+#define uint32_t vtkTypeUInt32
+
 
 /* H5LITE_USE_MXA_CONSTRUCTS is used to include MXADataModel Specific classes in
  * this class. If this is being compiled as part of MXADataModel this should
